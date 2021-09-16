@@ -11,7 +11,7 @@ import SwiftUI
 struct UsersPostApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            UserListView(viewModel: UserViewModel())
         }
     }
 }

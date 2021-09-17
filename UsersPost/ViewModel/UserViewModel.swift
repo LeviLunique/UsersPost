@@ -36,20 +36,11 @@ class UserViewModel: ObservableObject{
                 .decode(type: [User].self, decoder: JSONDecoder())
                 .breakpointOnError()
                 .receive(on: DispatchQueue.main)
-                .sink(receiveCompletion: sinkError(_:)) { self.users = $0 }
+                .sink(receiveCompletion: {self.sinkError($0) {self.loading = false}}) { self.users = $0 }
             
         }
     }
     
-    private func sinkError(_ completion: Subscribers.Completion<Error>) {
-        switch completion {
-            case .failure(let error):
-                loading = false
-                debugPrint(error)
-            default:
-                break
-        }
-    }
     
     func fetchUsers(){
         

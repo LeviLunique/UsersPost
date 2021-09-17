@@ -14,11 +14,17 @@ struct UserListView: View {
     
     var body: some View {
         NavigationView{
-            List{
-                ForEach(viewModel.users){ user in
-                    VStack (alignment: .leading) {
-                        Text(user.name).font(.title2)
-                        Text(user.email).font(.subheadline)
+            Group {
+                if viewModel.loading {
+                    loading()
+                } else {
+                    List{
+                        ForEach(viewModel.users){ user in
+                            VStack (alignment: .leading) {
+                                Text(user.name).font(.title2)
+                                Text(user.email).font(.subheadline)
+                            }
+                        }
                     }
                 }
             }
@@ -26,6 +32,14 @@ struct UserListView: View {
         }
         .onAppear{
             viewModel.fetchUsers()
+        }
+    }
+    
+    @ViewBuilder
+    private func loading() -> some View{
+        VStack{
+            ProgressView()
+            Text("Carregando...")
         }
     }
 }
